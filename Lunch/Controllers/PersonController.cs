@@ -13,8 +13,8 @@ namespace Lunch.Controllers
         public ActionResult Index()
         {
             var personList = new PersonListViewModel
-            {
-                People = new List<PersonViewModel>
+                {
+                    People = new List<PersonViewModel>
                     {
                         new PersonViewModel { PersonId = 1, LastName = "Halpert", FirstName = "Jim" },
                         new PersonViewModel { PersonId = 2, LastName = "Beesly", FirstName = "Pam" },
@@ -34,6 +34,8 @@ namespace Lunch.Controllers
                     }
             };
 
+            personList.TotalPeople = personList.People.Count;
             return View(personList);
         }
+    }
 }
