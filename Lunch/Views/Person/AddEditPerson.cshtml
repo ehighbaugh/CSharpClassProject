@@ -11,6 +11,8 @@
     <div class="col-sm-6 col-xs-10">
         @using (Html.BeginForm(isEditMode ? "EditPerson" : "AddPerson", "Person"))
         {
+            @Html.HiddenFor(m => m.PersonId)
+
             <div class="form-group">
                 @Html.LabelFor(m => m.LastName)
                 @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
@@ -19,7 +21,7 @@
                 @Html.LabelFor(m => m.FirstName)
                 @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
             </div>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">@(isEditMode ? "Save" : "Add")</button>
             @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
         }
     </div>
