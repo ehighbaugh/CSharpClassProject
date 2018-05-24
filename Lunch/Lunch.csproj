@@ -124,6 +124,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="LunchContext.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PersonListViewModel.cs" />
     <Compile Include="Models\PersonViewModel.cs" />
