@@ -1,0 +1,93 @@
+﻿@model Lunch.Models.PersonViewModel
+
+@{
+    ViewBag.Title = Model.FullName + "'s Food Preferences";
+}
+
+<h2>@Model.FullName's Food Preferences</h2>
+
+@using (Html.BeginForm("EditFoodPreferences", "Person", "POST"))
+{
+    @Html.HiddenFor(m => m.PersonId)
+
+    <div class="col-xs-12">
+        <button type="submit" class="btn btn-primary">Save</button>
+        @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
+        <hr />
+    </div>
+
+    for (var i = 0; i < Model.FoodPreferences.Count; i++)
+    {
+        @Html.HiddenFor(m => m.FoodPreferences[i].Cuisine.CuisineId)
+
+        var selectedValue = Model.FoodPreferences.FirstOrDefault(fp => fp.Cuisine.CuisineId == Model.FoodPreferences[i].Cuisine.CuisineId)?.Rating;
+
+        <div class="col-sm-4">
+            <div id="prefPanel@(i)" class="panel panel-default">
+                <div class="panel-heading">
+                    @Model.FoodPreferences[i].Cuisine.Name
+                </div>
+                <div class="panel-body">
+                    @Html.TextBoxFor(m => m.FoodPreferences[i].Rating, new { @type = "range", min = Model.FoodPreferences[i].Rating == -1 ? "-1" : "0", max = "5", step = "1" })
+                    <div style="text-align: center;">
+                        <span id="prefDescription@(i)"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<script type="text/javascript">
+				function setPrefDescription(index) {
+					var prefDescriptionLabel = document.getElementById("prefDescription" + index);
+					var prefPanel = document.getElementById("prefPanel" + index);
+					var prefSliderValue = parseInt(document.getElementById("FoodPreferences_" + index + "__Rating").value);
+
+					switch (prefSliderValue) {
+						case -1:
+							prefDescriptionLabel.innerHTML = "Not set";
+							prefDescriptionLabel.className = "";
+							prefPanel.className = "panel panel-default";
+							break;
+						case 0:
+							prefDescriptionLabel.innerHTML = "Hate it";
+							prefDescriptionLabel.className = "text-danger";
+							prefPanel.className = "panel panel-danger";
+							break;
+						case 1:
+							prefDescriptionLabel.innerHTML = "do not care for it";
+							prefDescriptionLabel.className = "text-warning";
+							prefPanel.className = "panel panel-warning";
+							break;
+						case 2:
+							prefDescriptionLabel.innerHTML = "If I have to";
+							prefDescriptionLabel.className = "text-warning";
+							prefPanel.className = "panel panel-warning";
+							break;
+						case 3:
+							prefDescriptionLabel.innerHTML = "It's OK";
+							prefDescriptionLabel.className = "text-info";
+							prefPanel.className = "panel panel-info";
+							break;
+						case 4:
+							prefDescriptionLabel.innerHTML = "Like it";
+							prefDescriptionLabel.className = "text-success";
+							prefPanel.className = "panel panel-success";
+							break;
+						case 5:
+							prefDescriptionLabel.innerHTML = "Love it";
+							prefDescriptionLabel.className = "text-success";
+							prefPanel.className = "panel panel-success";
+							break;
+					}
+				}
+
+				@for (var i = 0; i < Model.FoodPreferences.Count; i++)
+				{
+					<text>
+					document.getElementById("FoodPreferences_@(i)__Rating").oninput = function () { setPrefDescription(@i) };
+					setPrefDescription(@i);
+					</text>
+				}
+</script>

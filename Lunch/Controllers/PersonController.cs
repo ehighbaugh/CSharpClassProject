@@ -133,5 +133,81 @@ namespace Lunch.Controllers
 
             return new HttpNotFoundResult();
         }
+
+        public ActionResult ManageFoodPreferences(int id)
+        {
+            using (var lunchContext = new LunchContext())
+            {
+                var person = lunchContext.People.Include("FoodPreferences").SingleOrDefault(p => p.PersonId == id);
+
+                if (person == null)
+                    return new HttpNotFoundResult();
+
+                var personViewModel = new PersonViewModel
+                {
+                    PersonId = person.PersonId,
+                    LastName = person.LastName,
+                    FirstName = person.FirstName
+                };
+
+                //By adding .ToList() to lunchContext.Cuisines, we are forcing a single query to retrieve all cuisines from the
+                //database before we begin the loop. If we omit .ToList(), it may still work, but it will result in a seperate
+                //round-trip to the database to get each cuisine.
+                foreach (var cuisine in lunchContext.Cuisines.ToList())
+                {
+                    //If no rating is found, currentRating will be null. "?." is known as the null-conditional operator. It
+                    //keeps us from having to write more code to deal with null values.
+                    var currentRating = person.FoodPreferences.SingleOrDefault(fp => fp.CuisineId == cuisine.CuisineId)?.Rating;
+
+                    personViewModel.FoodPreferences.Add(new FoodPreferenceViewModel
+                    {
+                        Cuisine = new CuisineViewModel { CuisineId = cuisine.CuisineId, Name = cuisine.Name },
+                        //If currentRating is null, we will assign -1 to indicate that there is no rating. "??" is known as
+                        //the null-coalescing operator. It allows us to specify a different value if currentRating is null.
+                        Rating = currentRating ?? -1
+                    });
+                }
+
+                return View(personViewModel);
+            }
+        }
+
+                [HttpPost]
+        public ActionResult EditFoodPreferences(PersonViewModel personViewModel)
+        {
+            using (var lunchContext = new LunchContext())
+            {
+                var person = lunchContext.People.Include("FoodPreferences").SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
+
+                if (person == null)
+                    return new HttpNotFoundResult();
+
+                foreach (var foodPreference in personViewModel.FoodPreferences)
+                {
+                    if (foodPreference.Rating != -1)
+                    {
+                        var existingFoodPreference = person.FoodPreferences.SingleOrDefault(fp => fp.CuisineId == foodPreference.Cuisine.CuisineId);
+                        if (existingFoodPreference != null)
+                        {
+                            existingFoodPreference.Rating = foodPreference.Rating;
+                        }
+                        else
+                        {
+                            person.FoodPreferences.Add(new FoodPreference
+                            {
+                                CuisineId = foodPreference.Cuisine.CuisineId.Value,
+                                Rating = foodPreference.Rating
+                            });
+                        }
+                    }
+                }
+
+                lunchContext.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
+    
+
