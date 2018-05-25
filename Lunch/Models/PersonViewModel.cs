@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lunch.Models
 {
@@ -12,9 +13,11 @@ namespace Lunch.Models
 
         public int? PersonId { get; set; }
 
+        [Required(ErrorMessage = "Last name is required.")]
         [DisplayName("Last Name")]
         public string LastName { get; set; }
 
+        [Required(ErrorMessage = "First name is required.")]
         [DisplayName("First Name")]
         public string FirstName { get; set; }
 

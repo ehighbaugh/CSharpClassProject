@@ -141,6 +141,18 @@
     <Compile Include="Migrations\201710170314465_FoodPreferences.Designer.cs">
       <DependentUpon>201710170314465_FoodPreferences.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805250330137_CompleteViews.cs" />
+    <Compile Include="Migrations\201805250330137_CompleteViews.Designer.cs">
+      <DependentUpon>201805250330137_CompleteViews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805250336151_PersonNameRequired.cs" />
+    <Compile Include="Migrations\201805250336151_PersonNameRequired.Designer.cs">
+      <DependentUpon>201805250336151_PersonNameRequired.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805250405326_RestaurantNameRequired.cs" />
+    <Compile Include="Migrations\201805250405326_RestaurantNameRequired.Designer.cs">
+      <DependentUpon>201805250405326_RestaurantNameRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Cuisine.cs" />
     <Compile Include="Models\CuisineViewModel.cs" />
@@ -163,6 +175,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710170314465_FoodPreferences.resx">
       <DependentUpon>201710170314465_FoodPreferences.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805250330137_CompleteViews.resx">
+      <DependentUpon>201805250330137_CompleteViews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805250336151_PersonNameRequired.resx">
+      <DependentUpon>201805250336151_PersonNameRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805250405326_RestaurantNameRequired.resx">
+      <DependentUpon>201805250405326_RestaurantNameRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -61,6 +61,11 @@ namespace Lunch.Controllers
         {
             using (var lunchContext = new LunchContext())
             {
+                if (!ModelState.IsValid)
+                {
+                    return View("AddEditPerson", personViewModel);
+                }
+
                 var person = new Person
                 {
                     LastName = personViewModel.LastName,
@@ -98,6 +103,11 @@ namespace Lunch.Controllers
         [HttpPost]
         public ActionResult EditPerson(PersonViewModel personViewModel)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("AddEditPerson", personViewModel);
+            }
+
             using (var lunchContext = new LunchContext())
             {
                 var person = lunchContext.People.SingleOrDefault(p => p.PersonId == personViewModel.PersonId);
